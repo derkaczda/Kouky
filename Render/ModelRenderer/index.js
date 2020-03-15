@@ -1,11 +1,11 @@
 import GLC from '../../GLCommander';
-import RedShader from '../Shader/RedShader';
+import ShaderFactory from '../../Utils/ShaderFactory';
 
 export default class ModelRenderer
 {
     constructor()
     {
-        this.shader = new RedShader();
+        this.shader = ShaderFactory.createFlatColorShader();
 
         this.models = {};
     }
@@ -36,6 +36,7 @@ export default class ModelRenderer
     {
         this.preRender();
         this.shader.use();
+        this.shader.changeColor(0.0, 0.0, 1.0, 1.0);
         Object.keys(this.models).forEach(model => {
             this.models[model].type.use(this.shader);
             this.models[model].instances.forEach(instance => {

@@ -31,12 +31,22 @@ class GLCommander
     compileShader = (shader) => this.gl.compileShader(shader);
     createShaderProgram = () => this.gl.createProgram();
     attachShaderToProgram = (program, shader) => this.gl.attachShader(program, shader);
-    linkProgram = (program) => this.gl.linkProgram(program);
+    linkProgram = (program) => {
+        this.gl.linkProgram(program);
+        if ( !this.gl.getProgramParameter( program, this.gl.LINK_STATUS) ) {
+            var info = this.gl.getProgramInfoLog(program);
+            throw new Error('Could not compile WebGL program. \n\n' + info);
+        }
+    }
     useProgram = (program) => this.gl.useProgram(program);
 
     getAttribLocation = (program, attribute) => this.gl.getAttribLocation(program, attribute);
+    getUniformLocation = (program, uniform) => this.gl.getUniformLocation(program, uniform);
     enableVertexAttribArray = (attribute) => this.gl.enableVertexAttribArray(attribute);
     pointToAttribute = (data, dimensions) => this.gl.vertexAttribPointer(data, dimensions, this.gl.FLOAT, false, 0, 0);
+
+
+    uniform4fv = (location, values) => this.gl.uniform4fv(location, values);
 
     drawTriangles = (numOfIndices) => this.gl.drawElements(this.gl.TRIANGLES, numOfIndices, this.gl.UNSIGNED_SHORT, 0);
 }

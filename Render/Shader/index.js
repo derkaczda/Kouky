@@ -1,12 +1,7 @@
 import GLC from '../../GLCommander';
-import Locations from './locations';
 
 export default class Shader
 {
-    constructor()
-    {
-    }
-
     addVertexShader = (vertexSource) =>
     {
         const vertexShader = GLC.createVertexShader();
@@ -40,8 +35,10 @@ export default class Shader
 
     prepareAttributes = () => {}
 
+    changeUniformf4v = (location, r, g, b, a) => GLC.uniform4fv(location, [r, g, b, a]);
 
     getAttribLocation = (attrib) => GLC.getAttribLocation(this.program, attrib);
+    getUniformLocation = (uniform) => GLC.getUniformLocation(this.program, uniform);
     enableVertexAttribArray = (attrib) => GLC.enableVertexAttribArray(attrib);
     pointToAttribute = (attrib, dimension) => GLC.pointToAttribute(attrib, dimension);
 }

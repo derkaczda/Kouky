@@ -1,4 +1,4 @@
-import Shader from '..';
+import Shader from '../../Render/Shader';
 
 const vertexSrc = `
     attribute vec3 POSITION;
