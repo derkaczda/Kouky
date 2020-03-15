@@ -1,8 +1,12 @@
-import GLC from '../GLCommander';
+import GLC from '../../GLCommander';
 import Locations from './locations';
 
 export default class Shader
 {
+    constructor()
+    {
+    }
+
     addVertexShader = (vertexSource) =>
     {
         const vertexShader = GLC.createVertexShader();
@@ -27,8 +31,6 @@ export default class Shader
         GLC.linkProgram(program);
 
         this.program = program;
-
-        this.positionAttribute = GLC.getAttribLocation(program, Locations.POSITION);
     }
 
     use = () =>
@@ -36,9 +38,10 @@ export default class Shader
         GLC.useProgram(this.program);
     }
 
-    enablePosition = () =>
-    {
-        GLC.enableVertexAttribArray(this.positionAttribute);
-        GLC.pointToAttribute(this.positionAttribute, 3);
-    }
+    prepareAttributes = () => {}
+
+
+    getAttribLocation = (attrib) => GLC.getAttribLocation(this.program, attrib);
+    enableVertexAttribArray = (attrib) => GLC.enableVertexAttribArray(attrib);
+    pointToAttribute = (attrib, dimension) => GLC.pointToAttribute(attrib, dimension);
 }

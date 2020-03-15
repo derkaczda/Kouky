@@ -28,7 +28,7 @@ export default class ModelType
     use = (shader) =>
     {
         GLC.bindArrayBuffer(this.vertexBuffer);
-        shader.enablePosition();
+        shader.prepareAttributes();
         GLC.bindElementArrayBuffer(this.indexBuffer);
     }
 }

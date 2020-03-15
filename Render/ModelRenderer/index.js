@@ -1,5 +1,5 @@
 import GLC from '../../GLCommander';
-import RedShader from '../../Shader/RedShader';
+import RedShader from '../Shader/RedShader';
 
 export default class ModelRenderer
 {
