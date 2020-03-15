@@ -45,7 +45,7 @@ class GLCommander
     enableVertexAttribArray = (attribute) => this.gl.enableVertexAttribArray(attribute);
     pointToAttribute = (data, dimensions) => this.gl.vertexAttribPointer(data, dimensions, this.gl.FLOAT, false, 0, 0);
 
-
+    uploadMatrix4fv = (location, matrix) => this.gl.uniformMatrix4fv(location, false, matrix);
     uniform4fv = (location, values) => this.gl.uniform4fv(location, values);
 
     drawTriangles = (numOfIndices) => this.gl.drawElements(this.gl.TRIANGLES, numOfIndices, this.gl.UNSIGNED_SHORT, 0);

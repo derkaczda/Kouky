@@ -1,21 +1,24 @@
 import Shader from '..';
+import GLC from '../../../GLCommander';
 
 const vertexSrc = `
     attribute vec3 POSITION;
 
     uniform vec4 COLOR;
+    uniform mat4 TRANSFORMATION;
 
     varying vec4 vColor;
 
     void main(void)
     {
         vColor = COLOR;
-        gl_Position = vec4(POSITION, 1.0);
+        gl_Position = TRANSFORMATION * vec4(POSITION, 1.0);
     }
 `;
 
 const fragmentSrc = `
-    precision mediump float; 
+    precision mediump float;
+
     varying vec4 vColor;
 
     void main(void)
@@ -38,20 +41,28 @@ export default class FlatColorShader extends Shader
         
         this.positionAttribute = this.getAttribLocation('POSITION');
         this.colorAttribute = this.getUniformLocation('COLOR');
+        this.transformationMatrix = this.getUniformLocation('TRANSFORMATION');
     }
-
     
     prepareAttributes = () =>
     {
         this.enableVertexAttribArray(this.positionAttribute);
         this.pointToAttribute(this.positionAttribute, 3);
 
-        //this.enableVertexAttribArray(this.colorAttribute);
-        //this.pointToAttribute(this.colorAttribute, 4);
+        this.changeUniformf4v(this.colorAttribute, this.r, this.g, this.b, this.a);
     }
 
     changeColor = (r, g, b, a) =>
     {
-        this.changeUniformf4v(this.colorAttribute, r, g, b, a);
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+        //this.changeUniformf4v(this.colorAttribute, r, g, b, a);
+    }
+
+    enableTransformationMatrix = (matrix) =>
+    {
+        GLC.uploadMatrix4fv(this.transformationMatrix, matrix);
     }
 };

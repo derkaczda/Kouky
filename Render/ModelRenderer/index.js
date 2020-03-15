@@ -5,9 +5,12 @@ export default class ModelRenderer
 {
     constructor()
     {
-        this.shader = ShaderFactory.createFlatColorShader();
-
         this.models = {};
+    }
+
+    addShader = (shader) =>
+    {
+        this.shader = shader;
     }
 
     registerNewModel = (model, id) =>
@@ -36,10 +39,10 @@ export default class ModelRenderer
     {
         this.preRender();
         this.shader.use();
-        this.shader.changeColor(0.0, 0.0, 1.0, 1.0);
         Object.keys(this.models).forEach(model => {
             this.models[model].type.use(this.shader);
             this.models[model].instances.forEach(instance => {
+                this.shader.enableTransformationMatrix(instance.getTransformationMatrix());
                 GLC.drawTriangles(this.models[model].type.indices.length);
             })
         });
