@@ -1,5 +1,5 @@
-import RedShader from '../PredefinedShader/RedShader';
-import FlatColorShader from '../PredefinedShader/FlatColorShader';
+import RedShader from '../../Render/Shader/PredefinedShader/RedShader';
+import FlatColorShader from '../../Render/Shader/PredefinedShader/FlatColorShader';
 
 export default class ShaderFactory
 {
