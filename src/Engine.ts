@@ -8,6 +8,7 @@ namespace Kouky {
 
 
             WebGLContext.init(canvasElementId, parentElementId);
+            WebGLContext.clearColor(0, 0, 0, 1);
         }
 
         public static get debug(): boolean { return KoukyEngine._debugMode; }

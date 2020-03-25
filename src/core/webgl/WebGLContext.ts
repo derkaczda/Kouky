@@ -43,5 +43,10 @@ namespace Kouky {
                 throw new Error("Kouky.WebGLContext: unable to initialize WebGL!");
             }
         }
+
+        public static clearColor(r: number, g: number, b: number, a: number): void {
+            WebGLContext._glContext.clearColor(r, g, b, a);
+            WebGLContext._glContext.clear(WebGLContext._glContext.COLOR_BUFFER_BIT);
+        }
     }
 }
