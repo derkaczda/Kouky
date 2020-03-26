@@ -1,17 +1,24 @@
+/// <reference path="../math/Vector3.ts" />
+/// <reference path="../graphics/Color.ts" />
+
 namespace Kouky {
     export class WebGLContext {
 
         private static _glContext: WebGLRenderingContext;
         private static _canvasElement: HTMLCanvasElement;
+        private static _clearColor: Color = Color.black();
 
         private constructor() {}
 
         /*
-         * Getters
+         * Getters / Setters
          */
 
         public static get gl(): WebGLRenderingContext { return WebGLContext._glContext; }
         public static get canvas(): HTMLCanvasElement { return WebGLContext._canvasElement; }
+        public static get clearColor(): Color { return WebGLContext._clearColor; }
+
+        public static set clearColor(value: Color) { WebGLContext._clearColor.copyFrom(value); }
 
         /*
          * Static methods
@@ -44,8 +51,9 @@ namespace Kouky {
             }
         }
 
-        public static clearColor(r: number, g: number, b: number, a: number): void {
-            WebGLContext._glContext.clearColor(r, g, b, a);
+        public static clear(): void {
+            WebGLContext._glContext.clearColor(WebGLContext._clearColor.r, WebGLContext._clearColor.g, 
+                WebGLContext._clearColor.b, WebGLContext._clearColor.a);
             WebGLContext._glContext.clear(WebGLContext._glContext.COLOR_BUFFER_BIT);
         }
     }
