@@ -5,7 +5,11 @@ namespace Kouky {
 
         public constructor(canvasElementId?: string, parentElementId?: string, debug: boolean = false) {
             KoukyEngine._debugMode = debug;
-
+            if(debug) {
+                Logger.loggingLevel = LoggingLevel.ALL;
+            } else {
+                Logger.loggingLevel = LoggingLevel.ERROR;
+            }
 
             WebGLContext.init(canvasElementId, parentElementId);
             WebGLContext.clearColor = Color.blue();
