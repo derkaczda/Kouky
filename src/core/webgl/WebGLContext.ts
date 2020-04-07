@@ -56,5 +56,25 @@ namespace Kouky {
                 WebGLContext._clearColor.b, WebGLContext._clearColor.a);
             WebGLContext._glContext.clear(WebGLContext._glContext.COLOR_BUFFER_BIT);
         }
+
+        public static createBuffer(): WebGLBuffer {
+            return WebGLContext._glContext.createBuffer();
+        }
+
+        public static bindArrayBuffer(arrayBuffer: WebGLBuffer): void {
+            WebGLContext._glContext.bindBuffer(WebGLContext._glContext.ARRAY_BUFFER, arrayBuffer);
+        }
+
+        public static uploadArrayData(data: Float32Array): void {
+            WebGLContext._glContext.bufferData(WebGLContext._glContext.ARRAY_BUFFER, data, WebGLContext._glContext.STATIC_DRAW);
+        }
+
+        public static bindElementArrayBuffer(elementBuffer: WebGLBuffer): void {
+            WebGLContext._glContext.bindBuffer(WebGLContext._glContext.ELEMENT_ARRAY_BUFFER, elementBuffer);
+        }
+
+        public static uploadElementArrayData(data: Uint16Array): void {
+            WebGLContext._glContext.bufferData(WebGLContext._glContext.ELEMENT_ARRAY_BUFFER, data, WebGLContext._glContext.STATIC_DRAW);
+        }
     }
 }
