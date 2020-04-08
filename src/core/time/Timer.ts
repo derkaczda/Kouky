@@ -19,5 +19,9 @@ namespace Kouky {
             Timer._timestamp.frameDelta = performance.now() - Timer._timestamp.lastTime;
             Timer._timestamp.frameCount++;
         }
+
+        public static get FPS(): number {
+            return Timer._timestamp.frameCount / (Timer._timestamp.currentTime / 1000.0);
+        }
     }
 }
