@@ -1,27 +1,23 @@
 namespace Kouky {
     export class Timestamp {
-        time: number;
-        lastTime: number;
-        delta: number;
-
-        public constructor(time: number, lastTime: number) {
-            this.time = time;
-            this.lastTime = lastTime;
-            this.delta = this.time - this.lastTime;
-        }
+        currentTime: number = 0;
+        lastTime: number = 0;
+        frameDelta: number = 0;
+        frameCount: number = 0;
     }
 
     export class Timer {
-        private static _lastTime: number = 0;
-        private static _current: number = 0;
+        private static _timestamp: Timestamp = new Timestamp();
 
         public static startTime(): Timestamp {
-            Timer._current = performance.now();
-            return new Timestamp(Timer._current, Timer._lastTime);
+            Timer._timestamp.currentTime = performance.now();
+            return Timer._timestamp;
         }
 
         public static stopTime(): void {
-            Timer._lastTime = performance.now();
+            Timer._timestamp.lastTime = Timer._timestamp.currentTime;
+            Timer._timestamp.frameDelta = performance.now() - Timer._timestamp.lastTime;
+            Timer._timestamp.frameCount++;
         }
     }
 }
