@@ -76,5 +76,47 @@ namespace Kouky {
         public static uploadElementArrayData(data: Uint16Array): void {
             WebGLContext._glContext.bufferData(WebGLContext._glContext.ELEMENT_ARRAY_BUFFER, data, WebGLContext._glContext.STATIC_DRAW);
         }
+
+        public static createShader(type: number): WebGLShader {
+            return WebGLContext._glContext.createShader(type);
+        }
+
+        public static shaderSource(shader: WebGLShader, source: string): void {
+            WebGLContext._glContext.shaderSource(shader, source);
+        }
+
+        public static compileShader(shader: WebGLShader): void {
+            WebGLContext._glContext.compileShader(shader);
+        }
+
+        public static createShaderProgram(): WebGLProgram {
+            return WebGLContext._glContext.createProgram();
+        }
+
+        public static attachShader(program: WebGLProgram, shader: WebGLShader): void {
+            WebGLContext._glContext.attachShader(program, shader);
+        }
+
+        public static linkProgram(program: WebGLProgram): void {
+            WebGLContext._glContext.linkProgram(program);
+        }
+
+        public static useProgram(program: WebGLProgram): void {
+            WebGLContext._glContext.useProgram(program);
+        }
+
+        public static getAttributLocation(program: WebGLProgram, name: string): number {
+            return WebGLContext._glContext.getAttribLocation(program, name);
+        }
+
+        public static enableVertexAttribArray(location: number): void {
+            WebGLContext._glContext.enableVertexAttribArray(location);
+        }
+
+        public static vertexAttribPointer(location: number,size: number, type: number, normalized: boolean,
+            stride: number, offset: number): void {
+            
+            WebGLContext._glContext.vertexAttribPointer(location, size, type, normalized, stride, offset);
+        }
     }
 }
