@@ -35,6 +35,15 @@ namespace Kouky {
             return WebGLContext.getAttributLocation(this._program, attribName);
         }
 
+        public getUniformLocation(name: string): WebGLUniformLocation {
+            return WebGLContext.getUniformLocation(this._program, name);
+        }
+
+        public uploadUniform(name: string, value: Matrix4x4): void {
+            let location = this.getUniformLocation(name);
+            WebGLContext.uploadUniform(location, value.toFloat32Array());
+        }
+
         private attachShaderSource(shaderSource: ShaderSource): void {
             WebGLContext.attachShader(this._program, shaderSource.shader);
         }

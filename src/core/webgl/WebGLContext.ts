@@ -118,5 +118,13 @@ namespace Kouky {
             
             WebGLContext._glContext.vertexAttribPointer(location, size, type, normalized, stride, offset);
         }
+
+        public static getUniformLocation(program: WebGLProgram, name: string): WebGLUniformLocation {
+            return WebGLContext._glContext.getUniformLocation(program, name);
+        }
+
+        public static uploadUniform(location:WebGLUniformLocation, value: Float32Array): void {
+            return WebGLContext._glContext.uniformMatrix4fv(location, false, value);
+        }
     }
 }
