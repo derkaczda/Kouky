@@ -51,6 +51,10 @@ namespace Kouky {
             }
         }
 
+        public static viewport(x: number, y: number, width: number, height: number): void {
+            WebGLContext._glContext.viewport(x, y, width, height);
+        }
+
         public static clear(): void {
             WebGLContext._glContext.clearColor(WebGLContext._clearColor.r, WebGLContext._clearColor.g, 
                 WebGLContext._clearColor.b, WebGLContext._clearColor.a);

@@ -2,6 +2,7 @@ namespace Kouky {
     export class KoukyEngine {
 
         private static _debugMode: boolean;
+        private _canvas: Canvas;
 
         public constructor(canvasElementId?: string, parentElementId?: string, debug: boolean = false) {
             KoukyEngine._debugMode = debug;
@@ -11,14 +12,16 @@ namespace Kouky {
                 Logger.loggingLevel = LoggingLevel.ERROR;
             }
             WebGLContext.init(canvasElementId, parentElementId);
+            this._canvas = new Canvas(800, 600);
+            EnginePipeline.canvas = this._canvas;
+
+            this.resize();
         }
         
         public static get debug(): boolean { return KoukyEngine._debugMode; }
         
         public start(): void {
-            WebGLContext.clearColor = Color.blue();
-            WebGLContext.clear();
-
+            this._canvas.clearColor = Color.blue();
             EnginePipeline.startComponents();
         }
         
@@ -31,6 +34,10 @@ namespace Kouky {
             EnginePipeline.frame(time);
             Timer.stopTime();
             requestAnimationFrame(this.loop.bind(this));
+        }
+
+        public resize(): void {
+            this._canvas.resize();
         }
     }
 }

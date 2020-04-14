@@ -1,8 +1,12 @@
 namespace Kouky {
     export class EnginePipeline {
         private static _components: EnginePipelineComponent[] = [];
+        private static _canvas: Canvas;
 
         private constructor() {}
+
+        public static set canvas(value: Canvas) { EnginePipeline._canvas = value; }
+        public static get canvas(): Canvas { return EnginePipeline._canvas; }
 
         public static addComponent(component: EnginePipelineComponent): void {
             EnginePipeline._components.push(component);
@@ -19,10 +23,11 @@ namespace Kouky {
 
         private static render(): void {
             let context = Kouky.WebGLContext.gl;
-            context.viewport(0, 0, context.canvas.width, context.canvas.height);
+            //context.viewport(0, 0, context.canvas.width, context.canvas.height);
+            EnginePipeline._canvas.updateViewport();
             context.enable(context.DEPTH_TEST);
-            WebGLContext.clearColor = Color.blue();
-            WebGLContext.clear();
+            //WebGLContext.clearColor = Color.blue();
+            EnginePipeline._canvas.clear();
             EnginePipeline.renderComponents();
         }
 

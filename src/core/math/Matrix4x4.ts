@@ -21,6 +21,17 @@
             return new Float32Array(this._data);
         }
 
+        public toString(): string {
+            let returnval = "";
+            for(let i = 0; i < 16; i++) {
+                returnval += this._data[i].toString() + " ";
+                if(i % 4 === 0) {
+                    returnval += "\n";
+                }
+            }
+            return returnval;
+        }
+
         public static identity(): Matrix4x4 {
             return new Matrix4x4();
         }
