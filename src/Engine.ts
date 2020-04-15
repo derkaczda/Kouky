@@ -20,6 +20,8 @@ namespace Kouky {
         
         public static get debug(): boolean { return KoukyEngine._debugMode; }
         
+        public get display(): Canvas { return this._canvas; }
+
         public start(): void {
             this._canvas.clearColor = Color.blue();
             EnginePipeline.startComponents();
@@ -38,6 +40,12 @@ namespace Kouky {
 
         public resize(): void {
             this._canvas.resize();
+        }
+
+        public fullscreen(): void {
+            this._canvas.width = window.innerWidth;
+            this._canvas.height = window.innerHeight;
+            this.resize();
         }
     }
 }
