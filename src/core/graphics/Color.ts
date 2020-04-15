@@ -30,6 +30,8 @@ namespace Kouky {
         public toFloatArray(): number[] { return [this.rFloat, this.gFloat, this.bFloat, this.aFloat]; }
         public toArray(): number[] { return this._color.toArray(); }
         public toFloat32Array(): Float32Array { return new Float32Array(this.toFloatArray()); }
+        public toVector4(): Vector4 { return this._color; }
+        public toFloatVector4(): Vector4 { return this._color.clone().divide(new Vector4(255.0, 255.0, 255.0, 255.0)); }
         public copyFrom(color: Color): void {
             this._color.set(color.r, color.g, color.b, color.a);
         }
