@@ -56,6 +56,10 @@ namespace Kouky {
             this._w = vector.w;
         }
 
+        public clone(): Vector4 {
+            return new Vector4(this._x, this._y, this._z, this._w);
+        }
+
         public setFromJson(json: any): void {
             if(json.x !== undefined) { this._x = Number(json.x); }
             if(json.y !== undefined) { this._y = Number(json.y); }

@@ -128,7 +128,11 @@ namespace Kouky {
         }
 
         public static uploadUniform(location:WebGLUniformLocation, value: Float32Array): void {
-            return WebGLContext._glContext.uniformMatrix4fv(location, false, value);
+            WebGLContext._glContext.uniformMatrix4fv(location, false, value);
+        }
+
+        public static uploadUniformVec4(location: WebGLUniformLocation, value: Float32Array): void {
+            WebGLContext._glContext.uniform4fv(location, value);
         }
     }
 }

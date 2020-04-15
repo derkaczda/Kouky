@@ -44,6 +44,11 @@ namespace Kouky {
             WebGLContext.uploadUniform(location, value.toFloat32Array());
         }
 
+        public uniformVec4(name: string, value: Vector4): void {
+            let location = this.getUniformLocation(name);
+            WebGLContext.uploadUniformVec4(location, value.toFloat32Array());
+        }
+
         private attachShaderSource(shaderSource: ShaderSource): void {
             WebGLContext.attachShader(this._program, shaderSource.shader);
         }
