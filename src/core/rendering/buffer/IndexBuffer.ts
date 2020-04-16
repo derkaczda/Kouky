@@ -44,7 +44,7 @@ namespace Kouky {
             return new Float32Array(this.toArray());
         }
 
-        public toUint26Array(): Uint16Array {
+        public toUint16Array(): Uint16Array {
             return new Uint16Array(this.toArray());
         }
     }
@@ -76,7 +76,7 @@ namespace Kouky {
         public loadData(): void {
             if(this._bufferData !== undefined) {
                 this.bind();
-                WebGLContext.uploadElementArrayData(this._bufferData.toUint26Array());
+                WebGLContext.uploadElementArrayData(this._bufferData.toUint16Array());
                 this.unbind();
             }
         }
