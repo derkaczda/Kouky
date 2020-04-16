@@ -1,10 +1,8 @@
 ﻿namespace Kouky {
-
     export class Matrix4x4 {
-
         private _data: number[] = [];
 
-        private constructor() {
+        public constructor() {
             this._data = [
                 1, 0, 0, 0,
                 0, 1, 0, 0,
@@ -13,9 +11,9 @@
             ];
         }
 
-        public get data(): number[] {
-            return this._data;
-        }
+        public get data(): number[] { return this._data; }
+
+        public static identity(): Matrix4x4 { return new Matrix4x4(); }
 
         public toFloat32Array(): Float32Array {
             return new Float32Array(this._data);
@@ -32,228 +30,87 @@
             return returnval;
         }
 
-        public static identity(): Matrix4x4 {
-            return new Matrix4x4();
-        }
-
         public copyFrom(matrix: Matrix4x4): void {
             for (let i = 0; i < 16; i++) {
-                this._data[i] = matrix._data[i];
+                this._data[i] = matrix.data[i];
             }
+        }
+
+        public setData(rowId: number, columnId: number, value: number): void {
+            if(rowId > 4 || columnId > 4 || rowId < 1 || columnId < 1) {
+                throw new Error("Matrix4x4::setData: rowId or columnId are greater 3. Please keep ids between 1 and 4");
+            }
+
+            this._data[(rowId-1) * 4 + (columnId-1)] = value;
         }
 
         public static orthographic(left: number, right: number, bottom: number,
             top: number, nearClip: number, farClip: number): Matrix4x4 {
             let m = new Matrix4x4();
 
-            let lr: number = 1.0 / (left - right);
-            let bt: number = 1.0 / (bottom - top);
-            let nf: number = 1.0 / (nearClip - farClip);
-
             /*
-             *  -2.0 * lr       ,       0            ,           0              , 0,
-             *       0          ,    -2.0 * bt       ,           0              , 0,
-             *       0          ,       0            ,       2.0 * nf           , 0,
-             * (left + top) * lr, (top + bottom) * bt, (farClip + nearClip) * nf, 1
+             *  2.0 / right-left       ,       0            ,           0              , -(right+left)/(right-left),
+             *       0          ,    2.0/(top - bottom)       ,           0              ,-(top+bottom)/(top-bottom),
+             *       0          ,       0            ,       -2.0/(far-near)          , -(far+near)/(far-near),
+             * 0, 0, 0, 1
              * 
              * */
-
-            m._data[0] = 2.0 /(right - left);
-            m._data[5] = 2.0 /(top - bottom);
-            m._data[10] = (-2.0) /(farClip - nearClip);
-            m._data[3] = -((right + left) / (right - left));
-            m._data[7] = -((top + bottom) / (top - bottom));
-            m._data[11] = -((farClip + nearClip) / (farClip - nearClip)); 
-
-            return m;
-        }
-        
-        public static perspective(left: number, right: number, bottom: number,
-            top: number, nearClip: number, farClip: number): Matrix4x4 {
-
-            /*
-             *   2n / (r-l)     ,       0            ,      (r+l)/(r-l)         , 0,
-             *       0          ,    2n / (t-b)      ,      (t+b)/(t-b)         , 0,
-             *       0          ,       0            ,     -(f+n)/(f-n)         , -2fn/(f-n),
-             *       0          ,       0            ,          -1              , 0
-             * 
-             * */
-
-            let m = new Matrix4x4();
-            m._data[0] = 2.0 / (right - left);
-            m._data[2] = (1.0/nearClip) * ((right + left) / (right - left));
-            m._data[5] = 2.0 / (top - bottom);
-            m._data[6] = (1/ nearClip) * ((top + bottom) / (top - bottom));
-            m._data[10] = -(1/ nearClip) * ((farClip + nearClip)/ (farClip - nearClip));
-            m._data[11] = -2*farClip / (farClip - nearClip);
-            m._data[14] = -1/nearClip;
-            m._data[15] = 0;
-            return m;
-        }
-
-        public static translation(position: Vector3): Matrix4x4 {
-            let m = new Matrix4x4();
-
-            /*
-             *       1          ,       0            ,           0              , 0,
-             *       0          ,       1            ,           0              , 0,
-             *       0          ,       0            ,           1              , 0,
-             *       x          ,       y            ,           z              , 1
-             *
-             * */
-
-            m._data[3] = position.x;
-            m._data[7] = position.y;
-            m._data[11] = position.z;
-
-            return m;
-        }
-
-        public static rotationX(angleInRadians: number): Matrix4x4 {
-            let m = new Matrix4x4();
-
-            /*
-             *       1          ,       0            ,           0              , 0,
-             *       0          ,  cos(angleRadians) ,  -sin(angleRadians)       , 0,
-             *       0          , sin(angleRadians) ,  cos(angleRadians)       , 0,
-             *       0          ,       0            ,           0              , 1
-             *
-             * */
-
-            let c = Math.cos(angleInRadians);
-            let s = Math.sin(angleInRadians);
-
-            m._data[5] = c;
-            m._data[6] = -s;
-            m._data[9] = s;
-            m._data[10] = c;
-
-            return m;
-        }
-
-        public static rotationY(angleInRadians: number): Matrix4x4 {
-            let m = new Matrix4x4();
-
-            /*
-             * cos(angleRadians),       0            , sin(angleRadians)       , 0,
-             *       0          ,       1            ,           0              , 0,
-             *-sin(angleRadians),       0            ,  cos(angleRadians)       , 0,
-             *       0          ,       0            ,           0              , 1
-             *
-             * */
-
-            let c = Math.cos(angleInRadians);
-            let s = Math.sin(angleInRadians);
-
-            m._data[0] = c;
-            m._data[2] = s;
-            m._data[8] = -s;
-            m._data[10] = c;
-
-            return m;
-        }
-
-        public static rotationZ(angleInRadians: number): Matrix4x4 {
-            let m = new Matrix4x4();
-
-            /*
-             * cos(angleRadians),  -sin(angleRadians) ,           0              , 0,
-             *sin(angleRadians),  cos(angleRadians) ,           0              , 0,
-             *       0          ,       0            ,           1              , 0,
-             *       0          ,       0            ,           0              , 1
-             *
-             * */
-
-            let c = Math.cos(angleInRadians);
-            let s = Math.sin(angleInRadians);
-
-            m._data[0] = c;
-            m._data[1] = -s;
-            m._data[4] = s;
-            m._data[5] = c;
             
+            m.setData(1, 1, 2.0/(right - left));
+            m.setData(1, 4, -((right + left)/(right - left)));
+            m.setData(2, 2, 2.0/(top-bottom));
+            m.setData(2, 4, -((top+bottom)/(top-bottom)));
+            m.setData(3, 3, 2.0/(top-bottom));
+            m.setData(3, 4, -((farClip+nearClip)/(farClip-nearClip)));
             return m;
         }
 
-        public static rotationXYZ(x: number, y: number, z: number): Matrix4x4 {
-            let rx = Matrix4x4.rotationX(x);
-            let ry = Matrix4x4.rotationY(y);
-            let rz = Matrix4x4.rotationZ(z);
-
-            // ZYX
-            return Matrix4x4.multiply(Matrix4x4.multiply(rz, ry), rx);
-        }
-
-        public static scale(scale: Vector3): Matrix4x4 {
+        public static translate(x: number, y: number, z:number): Matrix4x4 {
             let m = new Matrix4x4();
-
-            /*
-             *       x          ,       0            ,           0              , 0,
-             *       0          ,       y            ,           0              , 0,
-             *       0          ,       0            ,           z              , 0,
-             *       0          ,       0            ,           0              , 1
-             *
-             * */
-            m._data[0] = scale.x;
-            m._data[5] = scale.y;
-            m._data[10] = scale.z;
-
+            m.setData(1,4,x);
+            m.setData(2,4,y);
+            m.setData(3,4,z);
             return m;
         }
 
-        public static multiply(a: Matrix4x4, b: Matrix4x4): Matrix4x4 {
+        public static rotateX(angle: number): Matrix4x4 {
+            let s = Math.sin(Math.degToRad(angle));
+            let c = Math.cos(Math.degToRad(angle));
             let m = new Matrix4x4();
+            m.setData(2,2,c);
+            m.setData(2,3,-s);
+            m.setData(3,2,s);
+            m.setData(3,3,c);
+            return m;
+        }
 
-            let b00 = b._data[0 * 4 + 0];
-            let b01 = b._data[0 * 4 + 1];
-            let b02 = b._data[0 * 4 + 2];
-            let b03 = b._data[0 * 4 + 3];
-            let b10 = b._data[1 * 4 + 0];
-            let b11 = b._data[1 * 4 + 1];
-            let b12 = b._data[1 * 4 + 2];
-            let b13 = b._data[1 * 4 + 3];
-            let b20 = b._data[2 * 4 + 0];
-            let b21 = b._data[2 * 4 + 1];
-            let b22 = b._data[2 * 4 + 2];
-            let b23 = b._data[2 * 4 + 3];
-            let b30 = b._data[3 * 4 + 0];
-            let b31 = b._data[3 * 4 + 1];
-            let b32 = b._data[3 * 4 + 2];
-            let b33 = b._data[3 * 4 + 3];
-            let a00 = a._data[0 * 4 + 0];
-            let a01 = a._data[0 * 4 + 1];
-            let a02 = a._data[0 * 4 + 2];
-            let a03 = a._data[0 * 4 + 3];
-            let a10 = a._data[1 * 4 + 0];
-            let a11 = a._data[1 * 4 + 1];
-            let a12 = a._data[1 * 4 + 2];
-            let a13 = a._data[1 * 4 + 3];
-            let a20 = a._data[2 * 4 + 0];
-            let a21 = a._data[2 * 4 + 1];
-            let a22 = a._data[2 * 4 + 2];
-            let a23 = a._data[2 * 4 + 3];
-            let a30 = a._data[3 * 4 + 0];
-            let a31 = a._data[3 * 4 + 1];
-            let a32 = a._data[3 * 4 + 2];
-            let a33 = a._data[3 * 4 + 3];
+        public static rotateY(angle: number): Matrix4x4 {
+            let s = Math.sin(Math.degToRad(angle));
+            let c = Math.cos(Math.degToRad(angle));
+            let m = new Matrix4x4();
+            m.setData(1,1,c);
+            m.setData(1,3,s);
+            m.setData(3,1,-s);
+            m.setData(3,3,c);
+            return m;
+        }
 
-            m._data[0] = a00 * b00 + a01 * b10 + a02 * b20 + a03 * b30;
-            m._data[1] = a00 * b01 + a01 * b11 + a02 * b21 + a03 * b31;
-            m._data[2] = a00 * b02 + a01 * b12 + a02 * b22 + a03 * b32;
-            m._data[3] = a00 * b03 + a01 * b13 + a02 * b23 + a03 * b33;
-            m._data[4] = a10 * b00 + a11 * b10 + a12 * b20 + a13 * b30;
-            m._data[5] = a10 * b01 + a11 * b11 + a12 * b21 + a13 * b31;
-            m._data[6] = a10 * b02 + a11 * b12 + a12 * b22 + a13 * b32;
-            m._data[7] = a10 * b03 + a11 * b13 + a12 * b23 + a13 * b33;
-            m._data[8] = a20 * b00 + a21 * b10 + a22 * b20 + a23 * b30;
-            m._data[9] = a20 * b01 + a21 * b11 + a22 * b21 + a23 * b31;
-            m._data[10] = a20 * b02 + a21 * b12 + a22 * b22 + a23 * b32;
-            m._data[11] = a20 * b03 + a21 * b13 + a22 * b23 + a23 * b33;
-            m._data[12] = a30 * b00 + a31 * b10 + a32 * b20 + a33 * b30;
-            m._data[13] = a30 * b01 + a31 * b11 + a32 * b21 + a33 * b31;
-            m._data[14] = a30 * b02 + a31 * b12 + a32 * b22 + a33 * b32;
-            m._data[15] = a30 * b03 + a31 * b13 + a32 * b23 + a33 * b33;
+        public static rotateZ(angle: number): Matrix4x4 {
+            let s = Math.sin(Math.degToRad(angle));
+            let c = Math.cos(Math.degToRad(angle));
+            let m = new Matrix4x4();
+            m.setData(1,1,c);
+            m.setData(1,2,-s);
+            m.setData(2,1,s);
+            m.setData(2,2,c);
+            return m;
+        }
 
+        public static scale(x: number, y: number, z:number): Matrix4x4 {
+            let m = new Matrix4x4();
+            m.setData(1,1,x);
+            m.setData(2,2,y);
+            m.setData(3,3,z);
             return m;
         }
 

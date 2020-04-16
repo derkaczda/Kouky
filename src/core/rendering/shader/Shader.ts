@@ -41,7 +41,7 @@ namespace Kouky {
 
         public uploadUniform(name: string, value: Matrix4x4, transpose: boolean = false): void {
             let location = this.getUniformLocation(name);
-            WebGLContext.uploadUniform(location, transpose ? value.transpose().toFloat32Array() : value.toFloat32Array());
+            WebGLContext.uploadUniform(location, value.toFloat32Array());
         }
 
         public uniformVec4(name: string, value: Vector4): void {
