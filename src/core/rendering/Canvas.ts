@@ -28,7 +28,10 @@ namespace Kouky {
             WebGLContext.gl.canvas.width = this._width;
             WebGLContext.gl.canvas.height = this._height;
             this.updateViewport();
-            this._projectionMatrix = Matrix4x4.orthographic(0, this._canvas.width, this._canvas.height, 0, -1.0, 100);
+            this._projectionMatrix = Matrix4x4.perspective(0 , this._canvas.width, this._canvas.height,0,  0.5, 8.0);
+            this._projectionMatrix = this._projectionMatrix.transpose();
+            //this._projectionMatrix = Matrix4x4.perspectiveOther(60.0, this._canvas.width / this._canvas.height,  0.1, 1000);
+            console.log(this._projectionMatrix.toString());
         }
 
         public clear(color?: Color): void {

@@ -23,8 +23,8 @@
 
         public toString(): string {
             let returnval = "";
-            for(let i = 0; i < 16; i++) {
-                returnval += this._data[i].toString() + " ";
+            for(let i = 1; i <= 16; i++) {
+                returnval += this._data[i - 1].toString() + " ";
                 if(i % 4 === 0) {
                     returnval += "\n";
                 }
@@ -65,6 +65,29 @@
             m._data[13] = (top + bottom) * bt;
             m._data[14] = (farClip + nearClip) * nf; 
 
+            return m;
+        }
+        
+        public static perspective(left: number, right: number, bottom: number,
+            top: number, nearClip: number, farClip: number): Matrix4x4 {
+
+            /*
+             *   2n / (r-l)     ,       0            ,      (r+l)/(r-l)         , 0,
+             *       0          ,    2n / (t-b)      ,      (t+b)/(t-b)         , 0,
+             *       0          ,       0            ,     -(f+n)/(f-n)         , -2fn/(f-n),
+             *       0          ,       0            ,          -1              , 0
+             * 
+             * */
+
+            let m = new Matrix4x4();
+            m._data[0] = 2.0 / (right - left);
+            m._data[2] = (1.0/nearClip) * ((right + left) / (right - left));
+            m._data[5] = 2.0 / (top - bottom);
+            m._data[6] = (1/ nearClip) * ((top + bottom) / (top - bottom));
+            m._data[10] = -(1/ nearClip) * ((farClip + nearClip)/ (farClip - nearClip));
+            m._data[11] = -2*farClip / (farClip - nearClip);
+            m._data[14] = -1/nearClip;
+            m._data[15] = 0;
             return m;
         }
 
@@ -231,6 +254,30 @@
             m._data[14] = b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32;
             m._data[15] = b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33;
 
+            return m;
+        }
+
+        public transpose(): Matrix4x4 {
+            let m = new Matrix4x4();
+            m._data[0] = this._data[0];
+            m._data[1] = this._data[4];
+            m._data[2] = this._data[8];
+            m._data[3] = this._data[12];
+
+            m._data[4] = this._data[1];
+            m._data[5] = this._data[5];
+            m._data[6] = this._data[9];
+            m._data[7] = this._data[13];
+
+            m._data[8] = this._data[2];
+            m._data[9] = this._data[6];
+            m._data[10] = this._data[10];
+            m._data[11] = this._data[14];
+
+            m._data[12] = this._data[3];
+            m._data[13] = this._data[7];
+            m._data[14] = this._data[11];
+            m._data[15] = this._data[15];
             return m;
         }
     }
