@@ -27,6 +27,7 @@ namespace Kouky {
             EnginePipeline._canvas.updateViewport();
             context.enable(context.DEPTH_TEST);
             //WebGLContext.clearColor = Color.blue();
+            //context.clearDepth(context.getParameter(context.DEPTH_CLEAR_VALUE));
             EnginePipeline._canvas.clear();
             EnginePipeline.renderComponents();
         }

@@ -17,7 +17,7 @@
             let rotation = Matrix4x4.rotationXYZ(this.rotation.x, this.rotation.y, this.rotation.z);
             let scale = Matrix4x4.scale(this.scale);
 
-            return Matrix4x4.multiply(Matrix4x4.multiply(translation, rotation), scale);
+            return Matrix4x4.multiply(Matrix4x4.multiply(translation, rotation), scale).transpose();
         }
 
         public setFromJson(json: any): void {
