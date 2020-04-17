@@ -36,6 +36,15 @@
             }
         }
 
+        public copyFromList(list: number[]): void {
+            if(list.length !== 16) {
+                throw new Error("Matrix4x4::copyFromList: list has not the length 16!");
+            }
+            for (let i = 0; i < 16; i++) {
+                this._data[i] = list[i];
+            }
+        }
+
         public setData(rowId: number, columnId: number, value: number): void {
             if(rowId > 4 || columnId > 4 || rowId < 1 || columnId < 1) {
                 throw new Error("Matrix4x4::setData: rowId or columnId are greater 4 or smaller 1. Please keep ids between 1 and 4");
@@ -191,13 +200,40 @@
         }
 
         public static multiply(a: Matrix4x4, b: Matrix4x4): Matrix4x4 {
-            let m = new Matrix4x4();
+            let a0 = a.getRow(1);
+            let a1 = a.getRow(2);
+            let a2 = a.getRow(3);
+            let a3 = a.getRow(4);
+            let b0 = b.getColumn(1);
+            let b1 = b.getColumn(2);
+            let b2 = b.getColumn(3);
+            let b3 = b.getColumn(4);
 
+            let m = new Matrix4x4();
+            m.setData(1, 1, Matrix4x4.multiplyRowColumn(a0, b0));
+            m.setData(1, 2, Matrix4x4.multiplyRowColumn(a0, b1));
+            m.setData(1, 3, Matrix4x4.multiplyRowColumn(a0, b2));
+            m.setData(1, 4, Matrix4x4.multiplyRowColumn(a0, b3));
+
+            m.setData(2, 1, Matrix4x4.multiplyRowColumn(a1, b0));
+            m.setData(2, 2, Matrix4x4.multiplyRowColumn(a1, b1));
+            m.setData(2, 3, Matrix4x4.multiplyRowColumn(a1, b2));
+            m.setData(2, 4, Matrix4x4.multiplyRowColumn(a1, b3));
+
+            m.setData(3, 1, Matrix4x4.multiplyRowColumn(a2, b0));
+            m.setData(3, 2, Matrix4x4.multiplyRowColumn(a2, b1));
+            m.setData(3, 3, Matrix4x4.multiplyRowColumn(a2, b2));
+            m.setData(3, 4, Matrix4x4.multiplyRowColumn(a2, b3));
+
+            m.setData(4, 1, Matrix4x4.multiplyRowColumn(a3, b0));
+            m.setData(4, 2, Matrix4x4.multiplyRowColumn(a3, b1));
+            m.setData(4, 3, Matrix4x4.multiplyRowColumn(a3, b2));
+            m.setData(4, 4, Matrix4x4.multiplyRowColumn(a3, b3));
             return m;
         }
 
-        private static multiplyRow(row_a: number[], row_b: number[]): number [] {
-
+        private static multiplyRowColumn(row: number[], column: number[]): number {
+            return row[0] * column[0] + row[1] * column[1] + row[2] * column[2] + row[3] * column[3];
         }
     }
 }
