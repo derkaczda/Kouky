@@ -38,10 +38,54 @@
 
         public setData(rowId: number, columnId: number, value: number): void {
             if(rowId > 4 || columnId > 4 || rowId < 1 || columnId < 1) {
-                throw new Error("Matrix4x4::setData: rowId or columnId are greater 3. Please keep ids between 1 and 4");
+                throw new Error("Matrix4x4::setData: rowId or columnId are greater 4 or smaller 1. Please keep ids between 1 and 4");
             }
 
             this._data[(rowId-1) * 4 + (columnId-1)] = value;
+        }
+
+        public getData(rowId: number, columnId: number): number {
+            if(rowId > 4 || columnId > 4 || rowId < 1 || columnId < 1) {
+                throw new Error("Matrix4x4::getData: rowId or columnId are greater 4 or smaller 1. Please keep ids between 1 and 4");
+            }
+            return this._data[(rowId-1) * 4 + (columnId-1)];
+        }
+
+        public setRow(rowId: number, values: number[]): void {
+            if(rowId > 4 || rowId < 1) {
+                throw new Error("Matrix4x4::setRow: rowId is greater 4 or smaller 1. Please keep ids between 1 and 4");
+            }
+            if(values.length != 4) {
+                throw new Error("Matrix4x4::setRow: supplied values are not of length 4");
+            }
+            this.setData(rowId, 1, values[0]);
+            this.setData(rowId, 2, values[1]);
+            this.setData(rowId, 3, values[2]);
+            this.setData(rowId, 4, values[3]);
+        }
+
+        public getRow(rowId: number): number[] {
+            if(rowId > 4 || rowId < 1) {
+                throw new Error("Matrix4x4::getRow: rowId is greater 4 or smaller 1. Please keep ids between 1 and 4");
+            }
+            return [
+                this.getData(rowId,1), 
+                this.getData(rowId, 2),
+                this.getData(rowId, 3),
+                this.getData(rowId, 4),
+            ]
+        }
+
+        public getColumn(colId: number): number[] {
+            if(colId > 4 || colId < 1) {
+                throw new Error("Matrix4x4::getColumn: colId is greater 4 or smaller 1. Please keep ids between 1 and 4");
+            }
+            return [
+                this.getData(1, colId),
+                this.getData(2, colId),
+                this.getData(3, colId),
+                this.getData(4, colId),
+            ];
         }
 
         public static orthographic(left: number, right: number, bottom: number,
@@ -72,6 +116,10 @@
             m.setData(3,4,z);
             return m;
         }
+
+        public static translateVec3(vector: Vector3): Matrix4x4 {
+            return Matrix4x4.translate(vector.x, vector.y, vector.z);
+        } 
 
         public static rotateX(angle: number): Matrix4x4 {
             let s = Math.sin(Math.degToRad(angle));
@@ -114,6 +162,10 @@
             return m;
         }
 
+        public static scaleVec3(vector: Vector3): Matrix4x4 {
+            return Matrix4x4.scale(vector.x, vector.y, vector.z);
+        }
+
         public transpose(): Matrix4x4 {
             let m = new Matrix4x4();
             m._data[0] = this._data[0];
@@ -136,6 +188,16 @@
             m._data[14] = this._data[11];
             m._data[15] = this._data[15];
             return m;
+        }
+
+        public static multiply(a: Matrix4x4, b: Matrix4x4): Matrix4x4 {
+            let m = new Matrix4x4();
+
+            return m;
+        }
+
+        private static multiplyRow(row_a: number[], row_b: number[]): number [] {
+
         }
     }
 }
