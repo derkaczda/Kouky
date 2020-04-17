@@ -14,7 +14,7 @@ namespace Kouky {
             let array: number[] = [];
             array = array.concat(this.position.toArray());
             if(this.color !== undefined)
-                array = array.concat(this.color.toArray());
+                array = array.concat(this.color.toFloatArray());
             if(this.texCoords !== undefined)
                 array = array.concat(this.texCoords.toArray());
             return array;

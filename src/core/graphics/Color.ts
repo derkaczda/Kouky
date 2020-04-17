@@ -35,6 +35,9 @@ namespace Kouky {
         public copyFrom(color: Color): void {
             this._color.set(color.r, color.g, color.b, color.a);
         }
+        public static fromFloatArray(a: number[]): Color {
+            return new Color(a[0] * 255, a[1] * 255, a[2] * 255, a[3] * 255);
+        }
         public toString(): string {
             return `R: ${this._color.x}, G: ${this._color.y}, B: ${this._color.z}, A: ${this._color.w}`;
         }

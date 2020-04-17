@@ -25,10 +25,10 @@ namespace Kouky {
             WebGLContext.useProgram(this._program);
         }
 
-        public enableVertexAttribute(attribName: string): void {
+        public enableVertexAttribute(attribName: string, size: number,stride: number, offset: number): void {
             let location = this.getVertexAttributeLocation(attribName);
             WebGLContext.enableVertexAttribArray(location);
-            WebGLContext.vertexAttribPointer(location, 3, WebGLContext.gl.FLOAT, false, 0, 0);
+            WebGLContext.vertexAttribPointer(location, size, WebGLContext.gl.FLOAT, false, stride, offset);
         }
 
         public getVertexAttributeLocation(attribName: string): number {
