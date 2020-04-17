@@ -118,6 +118,30 @@
             return m;
         }
 
+        public static perspective(left: number, right: number, bottom: number,
+                top: number, near: number, far: number): Matrix4x4 {
+
+            let m = new Matrix4x4();
+            m.setData(1,1, (2.0 * near) / (right - left));
+            m.setData(1,3, (right + left) / (right - left));
+            m.setData(2,2, (2.0 * near) / (top - bottom));
+            m.setData(2,3, (top + bottom) / (top - bottom));
+            m.setData(3,3, (-(far + near) / (far - near)));
+            m.setData(3,4, (-(2.0 * far * near)/ (far - near)));
+            m.setData(4,3, -1.0);
+            return m;
+        }
+
+        public static perspectiveFov(aspect: number, fov: number, near: number, far: number): Matrix4x4 {
+            let m = new Matrix4x4();
+            m.setData(1,1, 1.0 / (aspect * Math.tan(fov/2.0)));
+            m.setData(2,2, 1.0 / (Math.tan(fov/ 2.0)));
+            m.setData(3,3, -((far+near)/(far-near)));
+            m.setData(3,4, -((2.0*far+near)/(far-near)));
+            m.setData(4,3, -1);
+            return m;
+        }
+
         public static translate(x: number, y: number, z:number): Matrix4x4 {
             let m = new Matrix4x4();
             m.setData(1,4,x);
