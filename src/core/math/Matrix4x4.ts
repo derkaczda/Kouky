@@ -163,6 +163,18 @@
             return m;
         }
 
+        public static rotate(x: number, y: number, z: number): Matrix4x4 {
+            let m = new Matrix4x4();
+            m = Matrix4x4.multiply(m, Matrix4x4.rotateX(x));
+            m = Matrix4x4.multiply(m, Matrix4x4.rotateY(y));
+            m = Matrix4x4.multiply(m, Matrix4x4.rotateZ(z));
+            return m;
+        }
+
+        public static rotateVec3(vector: Vector3): Matrix4x4 {
+            return Matrix4x4.rotate(vector.x, vector.y, vector.z);
+        }
+
         public static scale(x: number, y: number, z:number): Matrix4x4 {
             let m = new Matrix4x4();
             m.setData(1,1,x);
