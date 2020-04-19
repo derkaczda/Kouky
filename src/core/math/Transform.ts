@@ -2,34 +2,33 @@
 
     export class Transform {
 
-        // public position: Vector3 = Vector3.zero;
-        // public rotation: Vector3 = Vector3.zero;
-        // public scale: Vector3 = Vector3.one;
+        public position: Vector3 = Vector3.zero;
+        public rotation: Vector3 = Vector3.zero;
+        public scale: Vector3 = Vector3.one;
 
-        // public copyFrom(transform: Transform): void {
-        //     this.position.copyFrom(transform.position);
-        //     this.rotation.copyFrom(transform.rotation);
-        //     this.scale.copyFrom(transform.scale);
-        // }
+        public copyFrom(transform: Transform): void {
+            this.position.copyFrom(transform.position);
+            this.rotation.copyFrom(transform.rotation);
+            this.scale.copyFrom(transform.scale);
+        }
 
-        // public getTransformationMatrix(): Matrix4x4 {
-        //     let translation = Matrix4x4.translation(this.position);
-        //     let rotation = Matrix4x4.rotationXYZ(this.rotation.x, this.rotation.y, this.rotation.z);
-        //     let scale = Matrix4x4.scale(this.scale);
+        public getTransformationMatrix(): Matrix4x4 {
+            let transform = Matrix4x4.multiply(Matrix4x4.identity(), Matrix4x4.translateVec3(this.position));
+            transform = Matrix4x4.multiply(transform, Matrix4x4.rotateVec3(this.rotation));
+            transform = Matrix4x4.multiply(transform, Matrix4x4.scaleVec3(this.scale));
+            return transform;
+        }
 
-        //     return Matrix4x4.multiply(Matrix4x4.multiply(translation, rotation), scale).transpose();
-        // }
-
-        // public setFromJson(json: any): void {
-        //     if(json.position !== undefined) {
-        //         this.position.setFromJson(json.position);
-        //     }
-        //     if(json.rotation !== undefined) {
-        //         this.rotation.setFromJson(json.rotation);
-        //     }
-        //     if(json.scale !== undefined) {
-        //         this.scale.setFromJson(json.scale);
-        //     }
-        // }
+        public setFromJson(json: any): void {
+            if(json.position !== undefined) {
+                this.position.setFromJson(json.position);
+            }
+            if(json.rotation !== undefined) {
+                this.rotation.setFromJson(json.rotation);
+            }
+            if(json.scale !== undefined) {
+                this.scale.setFromJson(json.scale);
+            }
+        }
     }
 }
