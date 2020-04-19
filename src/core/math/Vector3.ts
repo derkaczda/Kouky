@@ -46,6 +46,22 @@
             return new Vector3(1.0, 1.0, 1.0);
         }
 
+        public static up(): Vector3 {
+            return new Vector3(0.0, 1.0, 0.0);
+        }
+
+        public static down(): Vector3 {
+            return new Vector3(0.0, -1.0, 0.0);
+        }
+
+        public static right(): Vector3 {
+            return new Vector3(1.0, 0.0, 0.0);
+        }
+
+        public static left(): Vector3 {
+            return new Vector3(-1.0, 0.0, 0.0);
+        }
+
         public copyFrom(vector: Vector3): void {
             this._x = vector.x;
             this._y = vector.y;
@@ -86,6 +102,13 @@
             return this;
         }
 
+        public scale(v: number): Vector3 {
+            this._x *= v;
+            this._y *= v;
+            this._z *= v;
+            return this;
+        }
+
         public static distance(a: Vector3, b: Vector3): number {
             return Math.sqrt(Vector3.distanceSquared(a, b));
         }
@@ -99,6 +122,9 @@
             return `X: ${this._x}, Y: ${this._y}, Z: ${this._z}`;
         }
     
+        public clone(): Vector3 {
+            return new Vector3(this._x, this._y, this._z);
+        }
     }
 
 }
