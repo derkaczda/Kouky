@@ -49,5 +49,19 @@ namespace Kouky {
         public static fromValues(r: number, g: number, b: number, a: number): Color {
             return new Color(r, g, b, a);
         }
+
+        public static fromHex(hexString: string): Color {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexString);
+            if(result) {
+                return new Color(
+                    parseInt(result[1], 16),
+                    parseInt(result[2], 16),
+                    parseInt(result[3], 16),
+                    255
+                );
+            } else {
+                throw new Error("Not possible to extract color from hex string '" + hexString + "'");
+            }
+        }
     }
 }
