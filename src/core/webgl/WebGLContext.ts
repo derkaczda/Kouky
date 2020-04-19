@@ -56,8 +56,8 @@ namespace Kouky {
         }
 
         public static clear(): void {
-            WebGLContext._glContext.clearColor(WebGLContext._clearColor.r, WebGLContext._clearColor.g, 
-                WebGLContext._clearColor.b, WebGLContext._clearColor.a);
+            WebGLContext._glContext.clearColor(WebGLContext._clearColor.rFloat, WebGLContext._clearColor.gFloat, 
+                WebGLContext._clearColor.bFloat, WebGLContext._clearColor.aFloat);
             WebGLContext._glContext.clear(WebGLContext._glContext.COLOR_BUFFER_BIT | WebGLContext._glContext.DEPTH_BUFFER_BIT);
         }
 
