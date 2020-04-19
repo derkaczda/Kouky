@@ -23,7 +23,6 @@ namespace Kouky {
         public get display(): Canvas { return this._canvas; }
 
         public start(): void {
-            this._canvas.clearColor = Color.black();
             EnginePipeline.startComponents();
         }
         
