@@ -23,6 +23,7 @@ namespace Kouky {
         public get display(): Canvas { return this._canvas; }
 
         public start(): void {
+            Input.intialize();
             EnginePipeline.startComponents();
         }
         
