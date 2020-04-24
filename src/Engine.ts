@@ -33,7 +33,7 @@ namespace Kouky {
         
         public loop(): void {
             let time: Timestamp = Timer.startTime();
-            EventBus.update(time);
+            EventSystem.update(time);
             EnginePipeline.frame(time);
             Timer.stopTime();
             requestAnimationFrame(this.loop.bind(this));
