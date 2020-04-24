@@ -16,11 +16,13 @@ namespace Kouky {
 
         public constructor(sender: any) {
             this._sender = sender;
+            this.createArguments();
             this.fillArguments();
         }
 
+        protected createArguments() { this._arguments = new EventArguments(); }
+
         protected fillArguments(): void {
-            this._arguments = new EventArguments();
             this._arguments.type = this.type;
         }
 
