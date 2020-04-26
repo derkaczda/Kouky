@@ -3,6 +3,8 @@ namespace Kouky {
         private static _components: EnginePipelineComponent[] = [];
         private static _canvas: Canvas;
 
+        private static _started: boolean = false;
+
         private constructor() {}
 
         public static set canvas(value: Canvas) { EnginePipeline._canvas = value; }
@@ -10,6 +12,9 @@ namespace Kouky {
 
         public static addComponent(component: EnginePipelineComponent): void {
             EnginePipeline._components.push(component);
+            if(EnginePipeline._started) {
+                component.start();
+            }
         }
 
         public static frame(time: Timestamp): void {
@@ -36,6 +41,7 @@ namespace Kouky {
             for(let component of EnginePipeline._components) {
                 component.start();
             }
+            EnginePipeline._started = true;
         }
 
         public static endComponents(): void {
