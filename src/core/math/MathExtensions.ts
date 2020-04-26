@@ -2,6 +2,7 @@ interface Math {
     clamp(value: number, min: number, max: number): number;
     degToRad(degress: number): number;
     radToDeg(radian: number): number;
+    getRandomInInterval(min: number, max: number): number;
 }
 
 (Math as any).clamp = (value: number, min: number, max: number): number => {
@@ -16,4 +17,8 @@ interface Math {
 
 (Math as any).radToDeg = (radians: number): number => {
     return radians * 180.0 / Math.PI;
+}
+
+(Math as any).getRandomInInterval = (min: number, max: number): number => {
+    return Math.random() * (max - min) + min;
 }
