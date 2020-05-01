@@ -48,11 +48,14 @@ namespace Kouky {
 
         private static onKeyDown(event: KeyboardEvent) : boolean {
             Input._keys[event.keyCode] = true;
+            EventSystem.dispatch(new KeyDownEvent(this, event.keyCode as Keys), true);
             return true;
         }
 
         private static onKeyUp(event: KeyboardEvent) : boolean {
             Input._keys[event.keyCode] = false;
+            console.log(event.keyCode);
+            EventSystem.dispatch(new KeyUpEvent(this, event.keyCode as Keys), true);
             return true;
         }
 
