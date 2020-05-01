@@ -54,7 +54,6 @@ namespace Kouky {
 
         private static onKeyUp(event: KeyboardEvent) : boolean {
             Input._keys[event.keyCode] = false;
-            console.log(event.keyCode);
             EventSystem.dispatch(new KeyUpEvent(this, event.keyCode as Keys), true);
             return true;
         }
