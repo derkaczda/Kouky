@@ -24,6 +24,7 @@ namespace Kouky {
 
         public start(): void {
             Input.intialize();
+            AssetManager.initialize();
             EnginePipeline.startComponents();
         }
         
